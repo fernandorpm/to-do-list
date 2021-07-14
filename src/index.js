@@ -1,7 +1,8 @@
+// eslint-disable-next-line
 import _ from 'lodash';
 import './style.css';
 
-let taskArray = [];
+const taskArray = [];
 let indexToAssign = taskArray.length;
 
 function Task(description) {
@@ -17,7 +18,7 @@ function AddTask(description) {
 }
 
 function DisplayTask() {
-  for (let idx = 0; idx < taskArray.length; idx++) {
+  for (let idx = 0; idx < taskArray.length; idx += 1) {
     const element = taskArray[idx];
     const elementDIV = document.querySelector('.list-content');
     const elementHTML = document.createElement('div');
@@ -38,7 +39,6 @@ function DisplayTask() {
     const elementButton = document.createElement('button');
     elementButton.innerHTML = '⋮';
     elementHTML.appendChild(elementButton);
-
   }
 }
 

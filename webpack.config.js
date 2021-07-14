@@ -1,12 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
- module.exports = {
-   entry: {
-     index: './src/index.js',
-   },
+module.exports = {
+  entry: {
+    index: './src/index.js',
+  },
 
-   devServer: {
+  devServer: {
     contentBase: './dist',
   },
 
@@ -29,10 +29,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
     ],
   },
 
-   output: {
-     filename: 'index.bundle.js',
-     path: path.resolve(__dirname, 'dist'),
-     clean: true,
-     publicPath: '/'
-   },
- };
+  output: {
+    filename: 'index.bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+    publicPath: '/',
+  },
+};
