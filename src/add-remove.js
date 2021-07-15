@@ -93,12 +93,14 @@ function EditTask(indexToUpdate, descriptionToUpdate) {
   const taskEdit = prompt(`Editing '${descriptionToUpdate}' task`, descriptionToUpdate);
   if (taskEdit != null) {
     taskArray[indexToUpdate - 1].description = taskEdit;
-    UpdateIndexes();
+    localStorage.setItem('taskArray', JSON.stringify(taskArray));
+    DisplayTask();
   }
 }
 
 function DeleteTask(indexToDelete) {
   taskArray = taskArray.filter((task) => task.index !== indexToDelete);
+  indexToAssign -= 1;
   UpdateIndexes();
   DisplayTask();
 }
