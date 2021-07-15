@@ -1,8 +1,17 @@
 // eslint-disable-next-line
 import _ from 'lodash';
 import './style.css';
+import { AddDragEvents } from './dragndrop';
+import { AddChangeStatus, ChangeStatus } from './status';
 
-const taskArray = [];
+let taskArray;
+
+if (localStorage.getItem('taskArray')) {
+  taskArray = JSON.parse(localStorage.getItem('taskArray'));
+} else {
+  taskArray = [];
+}
+
 let indexToAssign = taskArray.length;
 
 function Task(description) {
@@ -15,6 +24,7 @@ function Task(description) {
 
 function AddTask(description) {
   taskArray.push(new Task(description));
+  localStorage.setItem('taskArray', JSON.stringify(taskArray));
 }
 
 function DisplayTask() {
@@ -23,7 +33,13 @@ function DisplayTask() {
     const elementDIV = document.querySelector('.list-content');
     const elementHTML = document.createElement('div');
     elementHTML.classList.add('list-item');
+    elementHTML.setAttribute('description', element.description);
+    elementHTML.setAttribute('completed', element.completed);
+    elementHTML.setAttribute('index', element.index);
     elementDIV.appendChild(elementHTML);
+
+    elementHTML.draggable = true;
+    AddDragEvents(elementHTML);
 
     const elementDetail = document.createElement('div');
     elementHTML.appendChild(elementDetail);
@@ -32,20 +48,26 @@ function DisplayTask() {
     elementCheckbox.type = 'checkbox';
     elementDetail.appendChild(elementCheckbox);
 
+    elementCheckbox.checked = element.completed;
+    AddChangeStatus(element, elementCheckbox);
+
     const elementDescription = document.createElement('p');
     elementDescription.innerHTML = element.description;
     elementDetail.appendChild(elementDescription);
 
-    const elementButton = document.createElement('button');
-    elementButton.innerHTML = '⋮';
-    elementHTML.appendChild(elementButton);
+    const elementSpan = document.createElement('span');
+    elementSpan.innerHTML = '⋮';
+    elementHTML.appendChild(elementSpan);
   }
 }
+
+localStorage.clear();
 
 AddTask('do the dishes');
 
 AddTask('do the microverse things');
 
 DisplayTask();
+
 
 // document.body.appendChild(component());
