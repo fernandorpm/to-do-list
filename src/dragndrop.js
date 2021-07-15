@@ -1,33 +1,17 @@
 let elementDrag;
 let elementDrop;
 
-function AddDragEvents(element) {
-
-  element.addEventListener('dragstart', () => ItemDragStart(element));
-  element.addEventListener('dragover', () => ItemDragOver(element));
-  element.addEventListener('dragleave', () => ItemDragLeave(element));
-  element.addEventListener('drop', () => ItemDrop());
-}
-
 function ItemDragStart(element) {
-
   elementDrag = element;
 }
 
 function ItemDragOver(element) {
+  // eslint-disable-next-line
   event.preventDefault();
   elementDrop = element;
 }
 
-function ItemDragLeave(element) {
-  event.preventDefault();
-
-  element.style.paddingTop = "0";
-}
-
 function ItemDrop() {
-  event.preventDefault();
-
   const taskArray = JSON.parse(localStorage.getItem('taskArray'));
 
   let dragIndex;
@@ -38,19 +22,18 @@ function ItemDrop() {
   let dropCompleted;
   let dropDescription;
 
-  // element.style.paddingTop = "0";
-
-  if (elementDrag.getAttribute('index') != elementDrop.getAttribute('index')) {
-
+  if (elementDrag.getAttribute('index') !== elementDrop.getAttribute('index')) {
     localStorage.clear();
 
-    for (let idx = 0; idx < taskArray.length; idx++) {
+    for (let idx = 0; idx < taskArray.length; idx += 1) {
       const element = taskArray[idx];
+      // eslint-disable-next-line
       if (element.index == elementDrag.getAttribute('index')) {
         dragIndex = elementDrag.getAttribute('index');
         dragCompleted = elementDrag.getAttribute('completed');
         dragDescription = elementDrag.getAttribute('description');
       }
+      // eslint-disable-next-line
       if (element.index == elementDrop.getAttribute('index')) {
         dropIndex = elementDrop.getAttribute('index');
         dropCompleted = elementDrop.getAttribute('completed');
@@ -69,8 +52,6 @@ function ItemDrop() {
       elementDrop.querySelector('input').checked = false;
     }
 
-    console.log('drag completed ' + dragCompleted);
-
     elementDrag.setAttribute('description', dropDescription);
     elementDrag.setAttribute('completed', dropCompleted);
     elementDrag.setAttribute('index', dropIndex);
@@ -83,19 +64,20 @@ function ItemDrop() {
       elementDrag.querySelector('input').checked = false;
     }
 
-    console.log('drop completed ' + dropCompleted);
-
-
-
-    let newTaskArray = [...taskArray];
+    const newTaskArray = [...taskArray];
 
     newTaskArray[dragIndex] = taskArray[dropIndex];
     newTaskArray[dropIndex] = taskArray[dragIndex];
 
-
     localStorage.setItem('taskArray', JSON.stringify(newTaskArray));
-
   }
 }
 
+function AddDragEvents(element) {
+  element.addEventListener('dragstart', () => ItemDragStart(element));
+  element.addEventListener('dragover', () => ItemDragOver(element));
+  element.addEventListener('drop', () => ItemDrop());
+}
+
+// eslint-disable-next-line
 export { AddDragEvents };

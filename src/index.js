@@ -1,8 +1,10 @@
 // eslint-disable-next-line
 import _ from 'lodash';
 import './style.css';
-import { AddDragEvents } from './dragndrop';
-import { AddChangeStatus, ChangeStatus } from './status';
+// eslint-disable-next-line
+import { AddDragEvents } from './dragndrop.js';
+// eslint-disable-next-line
+import { AddChangeStatus } from './status.js';
 
 let taskArray;
 
@@ -61,13 +63,8 @@ function DisplayTask() {
   }
 }
 
-localStorage.clear();
-
 AddTask('do the dishes');
 
 AddTask('do the microverse things');
 
 DisplayTask();
-
-
-// document.body.appendChild(component());

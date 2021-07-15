@@ -1,13 +1,9 @@
 function ChangeStatus(element, elementHTML) {
   const taskArray = JSON.parse(localStorage.getItem('taskArray'));
 
-  console.log(1);
-  for (let idx = 0; idx < taskArray.length; idx++) {
+  for (let idx = 0; idx < taskArray.length; idx += 1) {
     const taskElement = taskArray[idx];
-    if (taskElement.index == element.index) {
-  console.log(2);
-
-
+    if (taskElement.index === element.index) {
       const checkElement = elementHTML.checked;
 
       if (checkElement === true) {
@@ -15,20 +11,18 @@ function ChangeStatus(element, elementHTML) {
         taskElement.completed = true;
       } else {
         elementHTML.setAttribute('completed', false);
-        taskElement.completed =false;
+        taskElement.completed = false;
       }
 
       localStorage.setItem('taskArray', JSON.stringify(taskArray));
       break;
-
     }
   }
-
-
 }
 
 function AddChangeStatus(element, elementHTML) {
   elementHTML.addEventListener('change', () => ChangeStatus(element, elementHTML));
 }
 
+// eslint-disable-next-line
 export { AddChangeStatus };
