@@ -12,6 +12,8 @@ function ItemDragOver(element) {
 }
 
 function ItemDrop() {
+  // eslint-disable-next-line
+  event.stopPropagation();
   const taskArray = JSON.parse(localStorage.getItem('taskArray'));
 
   let dragIndex;
@@ -29,15 +31,15 @@ function ItemDrop() {
       const element = taskArray[idx];
       // eslint-disable-next-line
       if (element.index == elementDrag.getAttribute('index')) {
-        dragIndex = elementDrag.getAttribute('index');
-        dragCompleted = elementDrag.getAttribute('completed');
-        dragDescription = elementDrag.getAttribute('description');
+        dragIndex = element.index;
+        dragCompleted = element.completed;
+        dragDescription = element.description;
       }
       // eslint-disable-next-line
       if (element.index == elementDrop.getAttribute('index')) {
-        dropIndex = elementDrop.getAttribute('index');
-        dropCompleted = elementDrop.getAttribute('completed');
-        dropDescription = elementDrop.getAttribute('description');
+        dropIndex = element.index;
+        dropCompleted = element.completed;
+        dropDescription = element.description;
       }
     }
 
@@ -46,30 +48,24 @@ function ItemDrop() {
     elementDrop.setAttribute('index', dragIndex);
 
     elementDrop.querySelector('p').innerHTML = dragDescription;
-    if (dragCompleted) {
-      elementDrop.querySelector('input').checked = dragCompleted;
-    } else {
-      elementDrop.querySelector('input').checked = false;
-    }
+    elementDrop.querySelector('input').checked = !!dragCompleted;
 
     elementDrag.setAttribute('description', dropDescription);
     elementDrag.setAttribute('completed', dropCompleted);
     elementDrag.setAttribute('index', dropIndex);
 
     elementDrag.querySelector('p').innerHTML = dropDescription;
-
-    if (dropCompleted) {
-      elementDrag.querySelector('input').checked = dropCompleted;
-    } else {
-      elementDrag.querySelector('input').checked = false;
-    }
+    elementDrag.querySelector('input').checked = !!dropCompleted;
 
     const newTaskArray = [...taskArray];
 
-    newTaskArray[dragIndex] = taskArray[dropIndex];
-    newTaskArray[dropIndex] = taskArray[dragIndex];
-
-    localStorage.setItem('taskArray', JSON.stringify(newTaskArray));
+    while (newTaskArray[dragIndex].index !== taskArray[dropIndex].index
+      || newTaskArray[dropIndex].index !== taskArray[dragIndex].index) {
+      newTaskArray[dragIndex] = taskArray[dropIndex];
+      newTaskArray[dropIndex] = taskArray[dragIndex];
+      localStorage.clear();
+      localStorage.setItem('taskArray', JSON.stringify(newTaskArray));
+    }
   }
 }
 
