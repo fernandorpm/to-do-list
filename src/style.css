@@ -82,6 +82,16 @@ button:hover {
   gap: 10px;
 }
 
+.list-item div,
+.list-item p,
+.list-item span {
+  cursor: move;
+}
+
+.list-item > div:last-child {
+  gap: 0;
+}
+
 .list-item input {
   width: auto;
 }
@@ -94,12 +104,6 @@ button:hover {
   padding: 15px 20px;
   font-size: 16px;
   background: white;
-}
-
-.list-item div,
-.list-item p,
-.list-item span {
-  cursor: move;
 }
 
 /* Clear */
