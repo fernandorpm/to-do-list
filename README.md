@@ -14,7 +14,7 @@
 - NPM
 
 ## Live Demo
-[Check it out in GitHub Pages](https://www.fernandorpm.me/to-do-list/)
+[Check it out in GitHub Pages](https://www.fernandorpm.me/to-do-list/dist/index.html)
 
 
 ## Getting Started
