@@ -13,6 +13,8 @@
 - Webpacker
 - NPM
 
+## Live Demo
+[Check it out in GitHub Pages](https://www.fernandorpm.me/to-do-list/)
 
 
 ## Getting Started
