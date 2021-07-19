@@ -2,7 +2,7 @@
 
 # To Do List
 
-> A simple to-do list made with webpacker
+> A simple to-do list made with webpacker!
 
 ![screenshot](./app_screenshot.png)
 
