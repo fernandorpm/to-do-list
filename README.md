@@ -25,7 +25,8 @@
 - `npm install`
 - `npm run start`
 
-
+### Testing
+- `npm test`
 
 ## Authors
 
