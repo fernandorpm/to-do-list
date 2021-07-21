@@ -25,4 +25,4 @@ function AddChangeStatus(element, elementHTML) {
 }
 
 // eslint-disable-next-line
-export { AddChangeStatus };
+export { ChangeStatus, AddChangeStatus };
