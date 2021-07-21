@@ -43,7 +43,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "babel-jest": "^27.0.6",
-    "canvas": "file:node_modules/canvas",
     "lodash": "^4.17.21",
     "ts-jest": "^27.0.4"
   }
