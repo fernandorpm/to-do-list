@@ -118,7 +118,7 @@ describe('DeleteTask function', () => {
     // Act
     AssignButtons();
     AddTask('task number 1');
-    AddTask('task number 1');
+    AddTask('task number 2');
     DeleteTask(1);
     DeleteTask(1);
     DeleteTask(1);
