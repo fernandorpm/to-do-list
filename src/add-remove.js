@@ -3,7 +3,8 @@ import { AddDragEvents } from './dragndrop.js';
 // eslint-disable-next-line
 import { AddChangeStatus } from './status.js';
 
-let addButton, addInput, clearButton;
+let addButton; let addInput; let
+  clearButton;
 
 function AssignButtons() {
   addButton = document.querySelector('#button-add');
