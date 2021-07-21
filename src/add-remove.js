@@ -3,9 +3,16 @@ import { AddDragEvents } from './dragndrop.js';
 // eslint-disable-next-line
 import { AddChangeStatus } from './status.js';
 
-const addButton = document.querySelector('#button-add');
-const addInput = document.querySelector('#input-add');
-const clearButton = document.querySelector('#button-clear');
+let addButton, addInput, clearButton;
+
+function AssignButtons() {
+  addButton = document.querySelector('#button-add');
+  addInput = document.querySelector('#input-add');
+  clearButton = document.querySelector('#button-clear');
+}
+
+AssignButtons();
+
 let taskArray = [];
 
 if (localStorage.getItem('taskArray')) {
@@ -30,7 +37,7 @@ function UpdateIndexes() {
   localStorage.setItem('taskArray', JSON.stringify(taskArray));
 }
 
-function DisplayTask() {
+async function DisplayTask() {
   const elementDIV = document.querySelector('.list-content');
   elementDIV.innerHTML = '';
 
@@ -123,4 +130,4 @@ function AddCRUDEvents() {
 DisplayTask();
 
 // eslint-disable-next-line
-export { AddCRUDEvents };
+export { AssignButtons, AddTask, DeleteTask, EditTask, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };
