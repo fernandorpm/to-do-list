@@ -49,7 +49,6 @@ describe('AddTask Function', () => {
 
   test('Add one task and check on the list DOM', () => {
     // Assign
-    window.localStorage.clear();
     const list = document.querySelector('.list-content');
 
     // Act
@@ -64,8 +63,67 @@ describe('AddTask Function', () => {
     // Act
     AssignButtons();
     AddTask('task number 2');
+    AddTask('task number 3');
 
     // Assert
     expect(JSON.parse(window.localStorage.getItem('taskArray'))[1].description).toBe('task number 2');
+  });
+});
+
+describe('DeleteTask function', () => {
+  beforeAll(() => {
+    Object.defineProperty(window, 'localStorage', {
+      value: fakeLocalStorage,
+    });
+  });
+
+  test('Remove one task and check on the list DOM', () => {
+    // Assign
+    const list = document.querySelector('.list-content');
+
+    // Act
+    AssignButtons();
+    DeleteTask(1);
+
+    // Assert
+    expect(list.children).toHaveLength(2);
+  });
+
+  test('Remove every task one by one and check on the list DOM', () => {
+    // Assign
+    const list = document.querySelector('.list-content');
+
+    // Act
+    AssignButtons();
+    DeleteTask(1);
+    DeleteTask(1);
+    DeleteTask(1);
+
+    // Assert
+    expect(list.children).toHaveLength(0);
+  });
+
+  test('Remove one task and check on the localStorage', () => {
+    // Act
+    AssignButtons();
+    AddTask('task number 1');
+    AddTask('task number 2');
+    DeleteTask(0);
+
+    // Assert
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].description).toBe('task number 2');
+  });
+
+  test('Remove all tasks and check on the localStorage', () => {
+    // Act
+    AssignButtons();
+    AddTask('task number 1');
+    AddTask('task number 1');
+    DeleteTask(1);
+    DeleteTask(1);
+    DeleteTask(1);
+
+    // Assert
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))).toHaveLength(0);
   });
 });
