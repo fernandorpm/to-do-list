@@ -96,7 +96,7 @@ function AddTask(description) {
   DisplayTask(taskArray);
 }
 
-function EditTesting(indexToUpdate, taskEdit) {
+function innerFunctionEditTask(indexToUpdate, taskEdit) {
   taskArray[indexToUpdate - 1].description = taskEdit;
   localStorage.setItem('taskArray', JSON.stringify(taskArray));
   DisplayTask(taskArray);
@@ -106,7 +106,7 @@ function EditTask(indexToUpdate, descriptionToUpdate) {
   // eslint-disable-next-line
   const taskEdit = prompt(`Editing '${descriptionToUpdate}' task`, descriptionToUpdate);
   if (taskEdit != null) {
-    EditTesting(indexToUpdate, taskEdit);
+    innerFunctionEditTask(indexToUpdate, taskEdit);
   }
 }
 
@@ -118,14 +118,14 @@ function DeleteTask(indexToDelete) {
 }
 
 function DeleteAllCompletedTasks(taskArray) {
-  // if (localStorage.getItem('taskArray')) {
-  //   taskArray = JSON.parse(localStorage.getItem('taskArray'));
-  // }
+  if (localStorage.getItem('taskArray')) {
+    taskArray = JSON.parse(localStorage.getItem('taskArray'));
+  }
   // eslint-disable-next-line
   const filteredArray = taskArray.filter((task) => task.completed != true);
   UpdateIndexes();
   DisplayTask(filteredArray);
-
+  localStorage.setItem('taskArray', JSON.stringify(filteredArray));
   return filteredArray;
 }
 
@@ -137,4 +137,4 @@ function AddCRUDEvents() {
 DisplayTask(taskArray);
 
 // eslint-disable-next-line
-export { AssignButtons, AddTask, DeleteTask, EditTesting, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };
+export { AssignButtons, AddTask, DeleteTask, innerFunctionEditTask, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };

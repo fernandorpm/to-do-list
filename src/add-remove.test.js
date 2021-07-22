@@ -3,7 +3,7 @@
  */
 
 import {
-  AssignButtons, AddTask, DeleteTask, DeleteAllCompletedTasks, EditTesting,
+  AssignButtons, AddTask, DeleteTask, DeleteAllCompletedTasks, innerFunctionEditTask,
 } from './add-remove.js';
 import { ChangeStatus } from './status.js';
 import { ItemDrop } from './dragndrop.js';
@@ -135,7 +135,7 @@ describe('DeleteTask function', () => {
 describe('Editing function', () => {
   test('Edit the description of a task', () => {
     AddTask('task number 1');
-    EditTesting(1, 'This function worked');
+    innerFunctionEditTask(1, 'This function worked');
     expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].description).toBe('This function worked');
   });
 
@@ -144,7 +144,7 @@ describe('Editing function', () => {
     const liParagraphContent = list.children[0].children[0].children[1].innerHTML;
 
     AddTask('task number 1');
-    EditTesting(1, 'This function worked');
+    innerFunctionEditTask(1, 'This function worked');
     expect(liParagraphContent).toBe('This function worked');
   });
 });
@@ -201,6 +201,6 @@ describe('Clear All Completed tasks', () => {
 
     DeleteAllCompletedTasks(taskArray);
 
-    expect(list.children).toHaveLength(1);
+    expect(list.children[0].getAttribute('completed')).toBe('false');
   });
 });
