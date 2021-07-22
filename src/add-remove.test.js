@@ -6,6 +6,7 @@ import {
   AssignButtons, AddTask, DeleteTask, EditTesting,
 } from './add-remove.js';
 import { ChangeStatus } from './status.js';
+import { ItemDrop } from './dragndrop.js';
 
 document.body.innerHTML = `<div class="list-container">
   <div class="list-title">
@@ -132,19 +133,13 @@ describe('DeleteTask function', () => {
 });
 
 describe('Editing function', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'localStorage', {
-      value: fakeLocalStorage,
-    });
-  });
-
-  it('Edit the description of a task', () => {
+  test('Edit the description of a task', () => {
     AddTask('task number 1');
     EditTesting(1, 'This function worked');
     expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].description).toBe('This function worked');
   });
 
-  it('Edit the description of a task', () => {
+  test('Edit the description of a task', () => {
     const list = document.querySelector('.list-content');
     const liParagraphContent = list.children[0].children[0].children[1].innerHTML;
 
@@ -155,7 +150,7 @@ describe('Editing function', () => {
 });
 
 describe('Checkbox event', () => {
-  it('Updates the completed status from the element', () => {
+  test('Updates the completed status from the element', () => {
     const list = document.querySelector('.list-content');
     const checkbox = list.children[0].children[0].children[0];
     checkbox.checked = true;
@@ -164,5 +159,29 @@ describe('Checkbox event', () => {
     ChangeStatus(taskArray[0], checkbox);
 
     expect(checkbox.getAttribute('completed')).toBe('true');
+  });
+});
+
+describe('Drag and Drop updates', () => {
+  test('Updates the element according to the dragged and the dropped element and check the DOM', () => {
+    const list = document.querySelector('.list-content');
+    const elementDragStart = list.children[0];
+    const elementDropStart = list.children[1];
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ItemDrop(taskArray, elementDragStart, elementDropStart);
+
+    expect(Number(elementDragStart.getAttribute('index'))).toBe(1);
+  });
+
+  test('Updates the element according to the dragged and the dropped element and check the local storage', () => {
+    const list = document.querySelector('.list-content');
+    const elementDragStart = list.children[0];
+    const elementDropStart = list.children[1];
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ItemDrop(taskArray, elementDragStart, elementDropStart);
+
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].index).toBe(0);
   });
 });
