@@ -96,13 +96,17 @@ function AddTask(description) {
   DisplayTask();
 }
 
+function EditTesting(indexToUpdate, taskEdit) {
+  taskArray[indexToUpdate - 1].description = taskEdit;
+  localStorage.setItem('taskArray', JSON.stringify(taskArray));
+  DisplayTask();
+}
+
 function EditTask(indexToUpdate, descriptionToUpdate) {
   // eslint-disable-next-line
   const taskEdit = prompt(`Editing '${descriptionToUpdate}' task`, descriptionToUpdate);
   if (taskEdit != null) {
-    taskArray[indexToUpdate - 1].description = taskEdit;
-    localStorage.setItem('taskArray', JSON.stringify(taskArray));
-    DisplayTask();
+    EditTesting(indexToUpdate, taskEdit);
   }
 }
 
@@ -131,4 +135,4 @@ function AddCRUDEvents() {
 DisplayTask();
 
 // eslint-disable-next-line
-export { AssignButtons, AddTask, DeleteTask, EditTask, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };
+export { AssignButtons, AddTask, DeleteTask, EditTesting, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };

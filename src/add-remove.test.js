@@ -2,7 +2,10 @@
  * @jest-environment jsdom
  */
 
-import { AssignButtons, AddTask, DeleteTask } from './add-remove.js';
+import {
+  AssignButtons, AddTask, DeleteTask, EditTesting,
+} from './add-remove.js';
+import { ChangeStatus } from './status.js';
 
 document.body.innerHTML = `<div class="list-container">
   <div class="list-title">
@@ -125,5 +128,41 @@ describe('DeleteTask function', () => {
 
     // Assert
     expect(JSON.parse(window.localStorage.getItem('taskArray'))).toHaveLength(0);
+  });
+});
+
+describe('Editing function', () => {
+  beforeAll(() => {
+    Object.defineProperty(window, 'localStorage', {
+      value: fakeLocalStorage,
+    });
+  });
+
+  it('Edit the description of a task', () => {
+    AddTask('task number 1');
+    EditTesting(1, 'This function worked');
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].description).toBe('This function worked');
+  });
+
+  it('Edit the description of a task', () => {
+    const list = document.querySelector('.list-content');
+    const liParagraphContent = list.children[0].children[0].children[1].innerHTML;
+
+    AddTask('task number 1');
+    EditTesting(1, 'This function worked');
+    expect(liParagraphContent).toBe('This function worked');
+  });
+});
+
+describe('Checkbox event', () => {
+  it('Updates the completed status from the element', () => {
+    const list = document.querySelector('.list-content');
+    const checkbox = list.children[0].children[0].children[0];
+    checkbox.checked = true;
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ChangeStatus(taskArray[0], checkbox);
+
+    expect(checkbox.getAttribute('completed')).toBe('true');
   });
 });
