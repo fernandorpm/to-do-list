@@ -2,7 +2,11 @@
  * @jest-environment jsdom
  */
 
-import { AssignButtons, AddTask, DeleteTask } from './add-remove.js';
+import {
+  AssignButtons, AddTask, DeleteTask, DeleteAllCompletedTasks, innerFunctionEditTask,
+} from './add-remove.js';
+import { ChangeStatus } from './status.js';
+import { ItemDrop } from './dragndrop.js';
 
 document.body.innerHTML = `<div class="list-container">
   <div class="list-title">
@@ -125,5 +129,78 @@ describe('DeleteTask function', () => {
 
     // Assert
     expect(JSON.parse(window.localStorage.getItem('taskArray'))).toHaveLength(0);
+  });
+});
+
+describe('Editing function', () => {
+  test('Edit the description of a task', () => {
+    AddTask('task number 1');
+    innerFunctionEditTask(1, 'This function worked');
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].description).toBe('This function worked');
+  });
+
+  test('Edit the description of a task', () => {
+    const list = document.querySelector('.list-content');
+    const liParagraphContent = list.children[0].children[0].children[1].innerHTML;
+
+    AddTask('task number 1');
+    innerFunctionEditTask(1, 'This function worked');
+    expect(liParagraphContent).toBe('This function worked');
+  });
+});
+
+describe('Checkbox event', () => {
+  test('Updates the completed status from the element', () => {
+    const list = document.querySelector('.list-content');
+    const checkbox = list.children[0].children[0].children[0];
+    checkbox.checked = true;
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ChangeStatus(taskArray[0], checkbox);
+
+    expect(checkbox.getAttribute('completed')).toBe('true');
+  });
+});
+
+describe('Drag and Drop updates', () => {
+  test('Updates the element according to the dragged and the dropped element and check the DOM', () => {
+    const list = document.querySelector('.list-content');
+    const elementDragStart = list.children[0];
+    const elementDropStart = list.children[1];
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ItemDrop(taskArray, elementDragStart, elementDropStart);
+
+    expect(Number(elementDragStart.getAttribute('index'))).toBe(1);
+  });
+
+  test('Updates the element according to the dragged and the dropped element and check the local storage', () => {
+    const list = document.querySelector('.list-content');
+    const elementDragStart = list.children[0];
+    const elementDropStart = list.children[1];
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    ItemDrop(taskArray, elementDragStart, elementDropStart);
+
+    expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].index).toBe(0);
+  });
+});
+
+describe('Clear All Completed tasks', () => {
+  test('Clear 1 completed task', () => {
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    expect(DeleteAllCompletedTasks(taskArray)).toHaveLength(1);
+  });
+
+  test('Clear 1 completed task', () => {
+    const list = document.querySelector('.list-content');
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    taskArray[0].completed = true;
+
+    DeleteAllCompletedTasks(taskArray);
+
+    expect(list.children[0].getAttribute('completed')).toBe('false');
   });
 });

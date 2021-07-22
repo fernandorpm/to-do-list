@@ -1,5 +1,6 @@
 let elementDrag;
 let elementDrop;
+const taskArray = JSON.parse(localStorage.getItem('taskArray'));
 
 function ItemDragStart(element) {
   elementDrag = element;
@@ -7,14 +8,19 @@ function ItemDragStart(element) {
 
 function ItemDragOver(element) {
   // eslint-disable-next-line
-  event.preventDefault();
+  if (event) {
+    // eslint-disable-next-line
+    event.preventDefault();
+  }
   elementDrop = element;
 }
 
-function ItemDrop() {
+function ItemDrop(taskArray, elementDrag, elementDrop) {
   // eslint-disable-next-line
-  event.stopPropagation();
-  const taskArray = JSON.parse(localStorage.getItem('taskArray'));
+  if (event) {
+    // eslint-disable-next-line
+    event.stopPropagation();
+  }
 
   let dragIndex;
   let dragCompleted;
@@ -72,8 +78,8 @@ function ItemDrop() {
 function AddDragEvents(element) {
   element.addEventListener('dragstart', () => ItemDragStart(element));
   element.addEventListener('dragover', () => ItemDragOver(element));
-  element.addEventListener('drop', () => ItemDrop());
+  element.addEventListener('drop', () => ItemDrop(taskArray, elementDrag, elementDrop));
 }
 
 // eslint-disable-next-line
-export { AddDragEvents };
+export { ItemDragStart, ItemDragOver, ItemDrop, AddDragEvents };
