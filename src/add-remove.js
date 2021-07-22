@@ -38,7 +38,7 @@ function UpdateIndexes() {
   localStorage.setItem('taskArray', JSON.stringify(taskArray));
 }
 
-async function DisplayTask() {
+async function DisplayTask(taskArray) {
   const elementDIV = document.querySelector('.list-content');
   elementDIV.innerHTML = '';
 
@@ -93,13 +93,13 @@ function AddTask(description) {
   taskArray.push(new Task(description));
   localStorage.setItem('taskArray', JSON.stringify(taskArray));
   addInput.value = '';
-  DisplayTask();
+  DisplayTask(taskArray);
 }
 
 function EditTesting(indexToUpdate, taskEdit) {
   taskArray[indexToUpdate - 1].description = taskEdit;
   localStorage.setItem('taskArray', JSON.stringify(taskArray));
-  DisplayTask();
+  DisplayTask(taskArray);
 }
 
 function EditTask(indexToUpdate, descriptionToUpdate) {
@@ -114,17 +114,19 @@ function DeleteTask(indexToDelete) {
   taskArray = taskArray.filter((task) => task.index !== indexToDelete);
   indexToAssign -= 1;
   UpdateIndexes();
-  DisplayTask();
+  DisplayTask(taskArray);
 }
 
-function DeleteAllCompletedTasks() {
-  if (localStorage.getItem('taskArray')) {
-    taskArray = JSON.parse(localStorage.getItem('taskArray'));
-  }
+function DeleteAllCompletedTasks(taskArray) {
+  // if (localStorage.getItem('taskArray')) {
+  //   taskArray = JSON.parse(localStorage.getItem('taskArray'));
+  // }
   // eslint-disable-next-line
-  taskArray = taskArray.filter((task) => task.completed != true);
+  const filteredArray = taskArray.filter((task) => task.completed != true);
   UpdateIndexes();
-  DisplayTask();
+  DisplayTask(filteredArray);
+
+  return filteredArray;
 }
 
 function AddCRUDEvents() {
@@ -132,7 +134,7 @@ function AddCRUDEvents() {
   clearButton.addEventListener('click', () => DeleteAllCompletedTasks());
 }
 
-DisplayTask();
+DisplayTask(taskArray);
 
 // eslint-disable-next-line
 export { AssignButtons, AddTask, DeleteTask, EditTesting, AddCRUDEvents, UpdateIndexes, DisplayTask, DeleteAllCompletedTasks, AddDragEvents, AddChangeStatus };

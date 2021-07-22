@@ -3,7 +3,7 @@
  */
 
 import {
-  AssignButtons, AddTask, DeleteTask, EditTesting,
+  AssignButtons, AddTask, DeleteTask, DeleteAllCompletedTasks, EditTesting,
 } from './add-remove.js';
 import { ChangeStatus } from './status.js';
 import { ItemDrop } from './dragndrop.js';
@@ -183,5 +183,24 @@ describe('Drag and Drop updates', () => {
     ItemDrop(taskArray, elementDragStart, elementDropStart);
 
     expect(JSON.parse(window.localStorage.getItem('taskArray'))[0].index).toBe(0);
+  });
+});
+
+describe('Clear All Completed tasks', () => {
+  test('Clear 1 completed task', () => {
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    expect(DeleteAllCompletedTasks(taskArray)).toHaveLength(1);
+  });
+
+  test('Clear 1 completed task', () => {
+    const list = document.querySelector('.list-content');
+    const taskArray = JSON.parse(window.localStorage.getItem('taskArray'));
+
+    taskArray[0].completed = true;
+
+    DeleteAllCompletedTasks(taskArray);
+
+    expect(list.children).toHaveLength(1);
   });
 });
